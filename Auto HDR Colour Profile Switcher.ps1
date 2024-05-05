@@ -1,13 +1,19 @@
 # Note that folders in the registry are called keys
-# You can delete everything inside the "Display" key at the following registry path to clear all your current colour management settings and start again. This will it easier to find the currently used ones. They will regenerate as soon as you open the colour management panel in windows again.
-# THIS WILL FULLY CLEAR ALL COLOUR PROFILES FROM ALL MONITORS. Though the actual profile files won't be deleted so you can just re-add them in the colour management panel
+# You can delete everything inside the "Display" key at the following registry path to clear all your current colour management settings and start 
+# again. This will make it easier to find the currently used key group. The current key group will regenerate as soon as you open the colour management
+# panel in windows again.
+# THIS WILL FULLY CLEAR ALL COLOUR PROFILES FROM ALL MONITORS. Though the actual profile files won't be deleted so you can just re-add them in the 
+# colour management panel
 # If you don't want that, then see the $registryMonitorKey comment for how to find the correct group another way using the individial display.
 $registryPrePath = 'HKCU:\Software\Microsoft\Windows NT\CurrentVersion\ICM\ProfileAssociations\Display\'
 
-# Once you have regenerated the display grouping enter the long string here. It may stop working at some point if windows decides to make a new one for some reason.
+# Once you have regenerated the display grouping enter the long string here. It may stop working at some point if windows decides to make a new one
+# for some reason.
 $registryDisplayGroupKey = '{4d36e96e-e325-11ce-bfc1-08002be10318}'
 
-# To find the individual monitor key which corresponds individual monitor, you can refresh the registry while toggling "use my settings for this device" on the correct monitor in the colour management panel. This will change the entry in the registry called "UsePerUserProfiles". Note that you will need to refresh the registry using F5 or the view menu as its not dynamic.
+# To find the individual monitor key you can refresh the registry while toggling "use my settings for this device" on the intended monitor in the 
+# colour management panel. This will change the entry in the registry called "UsePerUserProfiles". Note that you will need to refresh the registry
+# using F5 or the view menu as it is not dynamic.
 $registryMonitorKey = '0003'
 
 
@@ -20,11 +26,11 @@ $HDRProfileName = 'XB1.icc'
 $SDRProfileName = 'B30.icm'
 
 
-#Delay between process scans whenever a process is terminated. This helps limit the hammering your CPU so much.
+#Delay in seconds between process scans whenever a process is terminated. This helps limit the CPU usage so much.
 $processCheckDelay = 5
 
 # Show windows notification on colour profile change
-# use $true or $false because that's how powershell works
+# Use $true or $false because that's how powershell works
 $enableNotifications = $false
 
 
