@@ -1,10 +1,14 @@
+# Total number of HDR displays you want the colour profile to be changed for
+$numOfHDRMonitors = 2
+
+
 # Note that folders in the registry are called keys
 # You can delete everything inside the "Display" key at the following registry path to clear all your current colour management settings and start 
 # again. This will make it easier to find the currently used key group. The current key group will regenerate as soon as you open the colour management
 # panel in windows again.
 # THIS WILL FULLY CLEAR ALL COLOUR PROFILES FROM ALL MONITORS. Though the actual profile files won't be deleted so you can just re-add them in the 
 # colour management panel
-# If you don't want that, then see the $registryMonitorKey comment for how to find the correct group another way using the individial display.
+# If you don't want that, then see the $registryDisplayKey1 comment for how to find the correct group another way using the individial display.
 $registryPrePath = 'HKCU:\Software\Microsoft\Windows NT\CurrentVersion\ICM\ProfileAssociations\Display\'
 
 # Once you have regenerated the display grouping enter the long string here. It may stop working at some point if windows decides to make a new one
@@ -14,16 +18,37 @@ $registryDisplayGroupKey = '{4d36e96e-e325-11ce-bfc1-08002be10318}'
 # To find the individual monitor key you can refresh the registry while toggling "use my settings for this device" on the intended monitor in the 
 # colour management panel. This will change the entry in the registry called "UsePerUserProfiles". Note that you will need to refresh the registry
 # using F5 or the view menu as it is not dynamic.
-$registryMonitorKey = '0003'
+$registryDisplayKey1 = '0003'
+
+# keys for more displays
+$registryDisplayKey2 = '0001'
+$registryDisplayKey3 = '0002'
+$registryDisplayKey4 = '0004'
 
 
 
-# Both of the following profiles should be installed in "C:\Windows\System32\spool\drivers\color"
+
+
+# The following profiles should be installed in "C:\Windows\System32\spool\drivers\color"
 
 # The file name of your advanced colour profile for HDR. This is usually your result from the windows HDR calibration tool
-$HDRProfileName = 'XB1.icc'
+$HDRProfileName1 = 'XB1.icc'
 # The file name of your SDR advanced colour profile with a corrected gamma curve. See here to get profiles: https://github.com/dylanraga/win11hdr-srgb-to-gamma2.2-icm
-$SDRProfileName = 'B30.icm'
+$SDRProfileName1 = 'B30.icm'
+
+
+
+# profiles for second display
+$HDRProfileName2 = 'C1.icc'
+$SDRProfileName2 = 'B30.icm'
+
+# profiles for third display
+$HDRProfileName3 = 'XB1.icc'
+$SDRProfileName3 = 'B30.icm'
+
+# profiles for fourth display
+$HDRProfileName4 = 'XB1.icc'
+$SDRProfileName4 = 'B30.icm'
 
 
 #Delay in seconds between process scans whenever a process is terminated. This helps limit the CPU usage so much.
@@ -37,8 +62,8 @@ $enableNotifications = $false
 # Enter each exe name here but WITHOUT the ".exe" part
 $programWhitelist = @(
 	'ManorLords-WinGDK-Shipping'
+	'Everspace2'
 	'notepad++'
-	'paintdotnet'
 )
 
 
@@ -54,7 +79,10 @@ $programWhitelist = @(
 
 
 $Name = 'ICMProfileAC'
-$fullRegistryPath = $registryPrePath + $registryDisplayGroupKey + '\' + $registryMonitorKey + '\'
+$fullRegistryPath1 = $registryPrePath + $registryDisplayGroupKey + '\' + $registryDisplayKey1 + '\'
+$fullRegistryPath2 = $registryPrePath + $registryDisplayGroupKey + '\' + $registryDisplayKey2 + '\'
+$fullRegistryPath3 = $registryPrePath + $registryDisplayGroupKey + '\' + $registryDisplayKey3 + '\'
+$fullRegistryPath4 = $registryPrePath + $registryDisplayGroupKey + '\' + $registryDisplayKey4 + '\'
 
 $lastTime = 0
 $hasRecentlyChecked = $false
@@ -118,23 +146,42 @@ function CheckProcesses {
 function SetHDRProfile{
 	if ($currentProfile -eq "HDR"){return}
 	[Console]::WriteLine("Enabling HDR profile" )
-	New-ItemProperty -Path $fullRegistryPath -Name $Name -Value $HDRProfileName -PropertyType MultiString -Force > $null
+	New-ItemProperty -Path $fullRegistryPath1 -Name $Name -Value $HDRProfileName1 -PropertyType MultiString -Force > $null
+	if ($numOfHDRMonitors -ge 2){
+		New-ItemProperty -Path $fullRegistryPath2 -Name $Name -Value $HDRProfileName2 -PropertyType MultiString -Force > $null
+	}
+	if ($numOfHDRMonitors -ge 3){
+		New-ItemProperty -Path $fullRegistryPath3 -Name $Name -Value $HDRProfileName3 -PropertyType MultiString -Force > $null
+	}
+	if ($numOfHDRMonitors -ge 4){
+		New-ItemProperty -Path $fullRegistryPath4 -Name $Name -Value $HDRProfileName4 -PropertyType MultiString -Force > $null
+	}
 	Start-ScheduledTask -TaskName "update active colour profiles"
 	$global:currentProfile = "HDR"
 	if ($enableNotifications){
-		$t1 = "Enabled HDR Profile:`r`n" + $HDRProfileName
+		$t1 = "Enabled HDR Profile:`r`n" + $HDRProfileName1
 		Show-Notification -Text1 $t1 > $null
 	}
+	
 }
 
 function setSDRProfile{
 	if ($currentProfile -eq "SDR"){return}
 	[Console]::WriteLine("Enabling SDR profile" )
-	New-ItemProperty -Path $fullRegistryPath -Name $Name -Value $SDRProfileName -PropertyType MultiString -Force > $null
+	New-ItemProperty -Path $fullRegistryPath1 -Name $Name -Value $SDRProfileName1 -PropertyType MultiString -Force > $null
+	if ($numOfHDRMonitors -ge 2){
+		New-ItemProperty -Path $fullRegistryPath2 -Name $Name -Value $SDRProfileName2 -PropertyType MultiString -Force > $null
+	}
+	if ($numOfHDRMonitors -ge 3){
+		New-ItemProperty -Path $fullRegistryPath3 -Name $Name -Value $SDRProfileName3 -PropertyType MultiString -Force > $null
+	}
+	if ($numOfHDRMonitors -ge 4){
+		New-ItemProperty -Path $fullRegistryPath4 -Name $Name -Value $SDRProfileName4 -PropertyType MultiString -Force > $null
+	}
 	Start-ScheduledTask -TaskName "update active colour profiles"
 	$global:currentProfile = "SDR"
 	if ($enableNotifications){
-		$t1 = "Enabled SDR Profile:`r`n" + $SDRProfileName
+		$t1 = "Enabled SDR Profile:`r`n" + $SDRProfileName1
 		Show-Notification -Text1 $t1  > $null
 	}
 }
