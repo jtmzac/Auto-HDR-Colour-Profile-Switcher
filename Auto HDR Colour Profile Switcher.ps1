@@ -1,10 +1,6 @@
-# Show windows notification on colour profile change
-# use $true or $false because that's how powershell works
-$enableNotifications = $false
-
 # Note that folders in the registry are called keys
-# You can delete everything inside the Display key at the following registry path to clear all your current colour management settings and start again. This will it easier to find the currently used ones. They will regenerate as soon as you open the colour management panel in windows again.
-# THIS WILL FULLY CLEAR ALL COLOUR PROFILES FROM ALL MONITORS. Though the actual files won't be deleted so you can just re-add them in the colour management panel
+# You can delete everything inside the "Display" key at the following registry path to clear all your current colour management settings and start again. This will it easier to find the currently used ones. They will regenerate as soon as you open the colour management panel in windows again.
+# THIS WILL FULLY CLEAR ALL COLOUR PROFILES FROM ALL MONITORS. Though the actual profile files won't be deleted so you can just re-add them in the colour management panel
 # If you don't want that, then see the $registryMonitorKey comment for how to find the correct group another way using the individial display.
 $registryPrePath = 'HKCU:\Software\Microsoft\Windows NT\CurrentVersion\ICM\ProfileAssociations\Display\'
 
@@ -27,6 +23,9 @@ $SDRProfileName = 'B30.icm'
 #Delay between process scans whenever a process is terminated. This helps limit the hammering your CPU so much.
 $processCheckDelay = 5
 
+# Show windows notification on colour profile change
+# use $true or $false because that's how powershell works
+$enableNotifications = $false
 
 
 # Enter each exe name here but WITHOUT the ".exe" part
@@ -40,7 +39,7 @@ $programWhitelist = @(
 
 
 
-
+# END OF USER SETTINGS
 
 
 
