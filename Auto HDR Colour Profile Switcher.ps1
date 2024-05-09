@@ -1,5 +1,19 @@
+# Enter each exe name here but WITHOUT the ".exe" part
+$programWhitelist = @(
+	'ManorLords-WinGDK-Shipping'
+	'Everspace2'
+	'HorizonForbiddenWest'
+	'notepad++'
+)
+
+
+
+
+
+
+
 # Total number of HDR displays you want the colour profile to be changed for
-$numOfHDRMonitors = 2
+$numOfHDRMonitors = 3
 
 
 # Note that folders in the registry are called keys
@@ -18,40 +32,36 @@ $registryDisplayGroupKey = '{4d36e96e-e325-11ce-bfc1-08002be10318}'
 # To find the individual monitor key you can refresh the registry while toggling "use my settings for this device" on the intended monitor in the 
 # colour management panel. This will change the entry in the registry called "UsePerUserProfiles". Note that you will need to refresh the registry
 # using F5 or the view menu as it is not dynamic.
-$registryDisplayKey1 = '0003'
+$registryDisplayKey1 = '0011'
 
 # keys for more displays
-$registryDisplayKey2 = '0001'
-$registryDisplayKey3 = '0002'
+$registryDisplayKey2 = '0007'
+$registryDisplayKey3 = '0001'
 $registryDisplayKey4 = '0004'
-
-
 
 
 
 # The following profiles should be installed in "C:\Windows\System32\spool\drivers\color"
 
 # The file name of your advanced colour profile for HDR. This is usually your result from the windows HDR calibration tool
-$HDRProfileName1 = 'XB1.icc'
+$HDRProfileName1 = 'PG32UCDM.icc'
 # The file name of your SDR advanced colour profile with a corrected gamma curve. See here to get profiles: https://github.com/dylanraga/win11hdr-srgb-to-gamma2.2-icm
-$SDRProfileName1 = 'B30.icm'
-
-
+$SDRProfileName1 = 'B80.icm'
 
 # profiles for second display
-$HDRProfileName2 = 'C1.icc'
-$SDRProfileName2 = 'B30.icm'
+$HDRProfileName2 = 'PG32UCDM.icc'
+$SDRProfileName2 = 'B80.icm'
 
 # profiles for third display
-$HDRProfileName3 = 'XB1.icc'
-$SDRProfileName3 = 'B30.icm'
+$HDRProfileName3 = 'C1.icc'
+$SDRProfileName3 = 'B80.icm'
 
 # profiles for fourth display
 $HDRProfileName4 = 'XB1.icc'
 $SDRProfileName4 = 'B30.icm'
 
 
-#Delay in seconds between process scans whenever a process is terminated. This helps limit the CPU usage so much.
+#Delay in seconds between process scans whenever a process is terminated. This helps limit the CPU usage.
 $processCheckDelay = 5
 
 # Show windows notification on colour profile change
@@ -59,18 +69,12 @@ $processCheckDelay = 5
 $enableNotifications = $false
 
 
-# Enter each exe name here but WITHOUT the ".exe" part
-$programWhitelist = @(
-	'ManorLords-WinGDK-Shipping'
-	'Everspace2'
-	'notepad++'
-)
-
-
-
 
 
 # END OF USER SETTINGS
+
+
+
 
 
 
