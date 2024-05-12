@@ -8,7 +8,7 @@ Several things within the script also must be configured in order to work proper
 
 
 If you want the script to auto-run on startup you can achieve this with a task in the task scheduler set to run "run with highest privelages" and start a batch file with:
-powershell.exe -windowstyle minimized -file "file path to script\Auto HDR Colour Profile Switcher.ps1"
+```powershell.exe -windowstyle minimized -file "file path to script\Auto HDR Colour Profile Switcher.ps1"```
 
 
 The script works by overwriting the registry value that stores the list of valid advanced colour profiles for a given monitor then applying the change via a built-in windows task in the task scheduler.
