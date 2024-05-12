@@ -160,7 +160,7 @@ function SetHDRProfile{
 	if ($numOfHDRMonitors -ge 4){
 		New-ItemProperty -Path $fullRegistryPath4 -Name $Name -Value $HDRProfileName4 -PropertyType MultiString -Force > $null
 	}
-	Start-ScheduledTask -TaskName "update active colour profiles"
+	Start-ScheduledTask -TaskName "\Microsoft\Windows\WindowsColorSystem\Calibration Loader"
 	$global:currentProfile = "HDR"
 	if ($enableNotifications){
 		$t1 = "Enabled HDR Profile:`r`n" + $HDRProfileName1
@@ -182,7 +182,7 @@ function setSDRProfile{
 	if ($numOfHDRMonitors -ge 4){
 		New-ItemProperty -Path $fullRegistryPath4 -Name $Name -Value $SDRProfileName4 -PropertyType MultiString -Force > $null
 	}
-	Start-ScheduledTask -TaskName "update active colour profiles"
+	Start-ScheduledTask -TaskName "\Microsoft\Windows\WindowsColorSystem\Calibration Loader"
 	$global:currentProfile = "SDR"
 	if ($enableNotifications){
 		$t1 = "Enabled SDR Profile:`r`n" + $SDRProfileName1
